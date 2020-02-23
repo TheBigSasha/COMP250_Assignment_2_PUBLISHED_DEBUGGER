@@ -2,6 +2,11 @@ package COMP250A2_W2020;
 
 import java.util.Random;
 
+/**
+ * Randomizer for COMP250 A2 objects
+ *
+ * @author Sasha Aleshchenko
+ */
 public class RandomTrains extends Random {
     int iterator = 0;
     TrainStation previous;
@@ -9,6 +14,7 @@ public class RandomTrains extends Random {
     public RandomTrains(long seed){
         this.setSeed(seed);
     }
+
     public RandomTrains(){
     }
 
@@ -46,15 +52,15 @@ public class RandomTrains extends Random {
         int numLines = 2 + nextInt(23);
         TrainNetwork output = new TrainNetwork(numLines);
         TrainLine[] lines = new TrainLine[numLines];
-        for(int i = 0; i < numLines;i++){
+        for (int i = 0; i < numLines; i++) {
             lines[i] = nextTrainLine();
-            for(int j = 0; j < nextInt(10); j++){
+            for (int j = 0; j < nextInt(10); j++) {
                 lines[i].addStation(nextTrainStation());
-                if(nextInt(300) > 250 && i != 0){
-                    addConnectingStop(lines[i],lines[nextInt(i - 1)]);
+                if (nextInt(300) > 250 && i != 0) {
+                    addConnectingStop(lines[i], lines[nextInt(i - 1)]);
                 }
-                if(i >= 1){//TODO: Make connecting stops add to random places always
-                    addConnectingStop(lines[i],lines[i-1]);
+                if (i >= 1) {//TODO: Make connecting stops add to random places always
+                    addConnectingStop(lines[i], lines[i - 1]);
                 }
             }
 
@@ -84,7 +90,6 @@ public class RandomTrains extends Random {
         //System.out.println(nameOut);
         return String.valueOf(nameOutChar);
     }
-
 
 
 }

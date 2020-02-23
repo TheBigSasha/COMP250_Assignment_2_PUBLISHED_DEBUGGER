@@ -6,6 +6,11 @@ import java.util.Random;
 
 import static COMP250A2_W2020.TrainRide.generateTrainNetwork;
 
+/**
+ * Visualizer for COMP250 A2 W2020
+ *
+ * @author Sasha Aleshchenko
+ */
 public class TrainVisualizer extends JFrame {
     public TrainNetwork tNet;
     private Random rand = new Random();
@@ -27,8 +32,10 @@ public class TrainVisualizer extends JFrame {
     }
 
     public void paint(Graphics g) {
-        try{
-        g.clearRect(0,0,getWidth(),getHeight());}catch(NullPointerException e){}
+        try {
+            g.clearRect(0, 0, getWidth(), getHeight());
+        } catch (NullPointerException e) {
+        }
         TrainLine[] lines = tNet.networkLines;
         TrainStation[][] linesStations = new TrainStation[lines.length][];
         for (int i = 0; i < lines.length; i++) {

@@ -3,6 +3,11 @@ import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Simple randomized tester for COMP250 A2
+ *
+ * @author Sasha Aleshchenko
+ */
 public class SashaTrainRide {
 
     public static void main(String[] args) {
