@@ -11,19 +11,36 @@ import static java.lang.Integer.parseInt;
 public class SashaTrainRide {
 
     public static void main(String[] args) {
-
+        //====================================== Error checking code from Maya's Tester, moved here to check package private errors ===================================
+        TrainNetwork tNet = generateTrainNetwork();
+        try {
+            tNet.getLineByName("Scarlet").getNext(tNet.getLineByName("Scarlet").findStation("FakeStaion"));
+        } catch (StationNotFoundException e) {
+            System.out.println("Your getNext function the appropriate exception\n");
+        }
+        try {
+            tNet.getLineByName("Scarlet").findStation("FakeStation");
+        } catch (StationNotFoundException e) {
+            System.out.println("Your findStation function the appropriate exception\n");
+        }
+        try {
+            tNet.getLineByName("Scarlet").travelOneStation(tNet.getLineByName("Scarlet").findStation("FakeStaion"), null);
+        } catch (StationNotFoundException e) {
+            System.out.println("Your travelOneStation function the appropriate exception\n");
+        }
+        //====================================== Good luck on the tester! ===================================
         System.out.println("Welcome to the Confusing Railroad! Enter a seed (long)");
         Scanner scanner = new Scanner(System.in);
         long seed = 0;
-        if(args.length != 0){
+        if (args.length != 0) {
             seed = parseInt(args[0]);
-        }else{
+        } else {
             seed = scanner.nextLong();
         }
         RandomTrains rand = new RandomTrains(seed);
 
         // Constructs a train network
-        TrainNetwork tNet = rand.nextTrainNetwork();
+        tNet = rand.nextTrainNetwork();
 
         // Prints the train network plan
         tNet.printPlan();
