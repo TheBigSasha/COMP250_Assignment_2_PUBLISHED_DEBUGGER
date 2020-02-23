@@ -1,4 +1,4 @@
-# COMP250_Assignment_2_PUBLISHED_DEBUGGER
+# COMP250 Assignment 2 DEBUGGER - McGill University Winter 2020
 
 # IMPORANT! Install Instructions -- SOME ASSEMBLY REQUIRED
 
