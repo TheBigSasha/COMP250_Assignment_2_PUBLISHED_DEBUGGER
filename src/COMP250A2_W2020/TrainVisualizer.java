@@ -16,11 +16,13 @@ public class TrainVisualizer extends JFrame {
     private Random rand = new Random();
     public JFrame frame;
     public TrainStation curStation;
+    private long timeTracker;
 
-    public TrainVisualizer(TrainNetwork tNet){
+
+    public TrainVisualizer(TrainNetwork tNet) {
         frame = new JFrame("Network Visualizer V1 - Visit sashaphoto.ca");
-        setTitle("Network Visualizer V1");
-        setSize(800, 400);
+        timeTracker = 0;
+        setSize(800, 450);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.tNet = tNet;
@@ -32,8 +34,17 @@ public class TrainVisualizer extends JFrame {
     }
 
     public void paint(Graphics g) {
+        Font f4 = new Font(Font.SERIF, Font.BOLD, 15);
+        Font f3 = new Font(Font.SERIF, Font.BOLD | Font.ITALIC | Font.TRUETYPE_FONT, 15);
+        Font f1 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         try {
             g.clearRect(0, 0, getWidth(), getHeight());
+            g.setFont(f4);
+            //g.drawString("Lines", getWidth() - 100, 50);
+            g.drawString("Hour " + timeTracker, 20, 50);
+            g.setFont(f3);
+            g.drawString("<3 - sashaphoto.ca", getWidth() - 150, getHeight() - 50);
+            g.setFont(f1);
         } catch (NullPointerException e) {
         }
         TrainLine[] lines = tNet.networkLines;
@@ -100,9 +111,11 @@ public class TrainVisualizer extends JFrame {
                                 (getWidth() * (j + 1) + 1) / (linesStations[i].length + 1) + 15,
                                 getHeight() * (i + 1) / (linesStations.length + 1) + 8);
                     } else {
+                        g.setFont(f4);
                         g.drawString(tNet.getLines()[i].getName(),
-                                (getWidth() * (j + 1) + 2) / (linesStations[i].length + 1),
+                                (getWidth() - 100),
                                 getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                        g.setFont(f1);
                     }
                 } catch (NullPointerException e) {
                 }
@@ -133,6 +146,7 @@ public class TrainVisualizer extends JFrame {
     }
 
     public void passCurrent(TrainStation curStation) {
+        timeTracker++;
         this.curStation = curStation;
     }
 }
