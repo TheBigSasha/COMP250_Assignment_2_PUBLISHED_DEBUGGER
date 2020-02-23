@@ -29,7 +29,7 @@ public class TrainVisualizer extends JFrame {
     }
 
     public static void main(String[] args) {
-        TrainVisualizer t = new TrainVisualizer(generateTrainNetwork());
+        TrainVisualizer t = new TrainVisualizer(generateTrainNetwork()); //This is a method in TrainRide.java, if it is an error make sure you have all of your classes in the same package.
         t.paint(null); // Not a proper way, but it still works.
     }
 
@@ -50,81 +50,88 @@ public class TrainVisualizer extends JFrame {
         TrainLine[] lines = tNet.networkLines;
         TrainStation[][] linesStations = new TrainStation[lines.length][];
         for (int i = 0; i < lines.length; i++) {
-            linesStations[i] = lines[i].getLineArray();
+            try {
+                linesStations[i] = lines[i].getLineArray();
+            } catch (Exception e) {
+            }
         }
-        for (int i = 0; i < linesStations.length; i++) {
-            for (int j = 0; j < linesStations[i].length; j++) {
-                try {
-                    g.drawString(linesStations[i][j].getName(),
-                            (getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
-                            getHeight() * (i + 1) / (linesStations.length + 1));
-
-                    g.drawRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
-                            getHeight() * (i + 1) / (linesStations.length + 1),
-                            15, 15);
-
-
-                    if (linesStations[i][j].hasConnection) {
-                        g.setColor(Color.gray);
-                        g.fillRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
-                                getHeight() * (i + 1) / (linesStations.length + 1),
-                                15, 15);
-                        g.setColor(Color.black);
-                        TrainLine transfersTo = linesStations[i][j].getTransferLine();
-                        TrainStation transfersStation = linesStations[i][j].getTransferStation();
-                        int coordYtrans = 0;
-                        for (int k = 0; k < lines.length; k++) {
-                            if (lines[k].getName().equals(transfersTo.getName())) {
-                                coordYtrans = k;
-//                                System.out.println("Y coord of transfer station of " + linesStations[i][j].getName() + " is " + coordYtrans);
-                            }
-                        }
-                        int coordXtrans = 0;
-                        TrainStation temp = lines[coordYtrans].getLeftTerminus();
-                        for (int k = 0; k < lines[coordYtrans].getSize(); k++) {
-                            if (temp.getName().equals(transfersStation.getName())) {
-                                coordXtrans = k;
-//                                System.out.println("X coord of transfer station of " + linesStations[i][j].getName() + " is " + coordXtrans);
-                            }
-                            temp = temp.getRight();
-                        }
-
-
-                        g.drawLine(
-                                //Location of original station
+        try {
+            for (int i = 0; i < linesStations.length; i++) {
+                for (int j = 0; j < linesStations[i].length; j++) {
+                    try {
+                        g.drawString(linesStations[i][j].getName(),
                                 (getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
-                                getHeight() * (i + 1) / (linesStations.length + 1) + 8,
-                                //Location of transfer station
-                                (getWidth() * (coordXtrans) + 1) / (linesStations[coordYtrans].length + 1) + 15,
-                                getHeight() * (coordYtrans + 1) / (linesStations.length + 1) + 8);
-                    }
-                    if (linesStations[i][j].equals(curStation) || linesStations[i][j].getName().equals(curStation.getName())) {
-                        g.setColor(Color.cyan);
-                        g.fillRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
+                                getHeight() * (i + 1) / (linesStations.length + 1));
+
+                        g.drawRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
                                 getHeight() * (i + 1) / (linesStations.length + 1),
                                 15, 15);
-                        g.setColor(Color.black);
+
+
+                        if (linesStations[i][j].hasConnection) {
+                            g.setColor(Color.gray);
+                            g.fillRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
+                                    getHeight() * (i + 1) / (linesStations.length + 1),
+                                    15, 15);
+                            g.setColor(Color.black);
+                            TrainLine transfersTo = linesStations[i][j].getTransferLine();
+                            TrainStation transfersStation = linesStations[i][j].getTransferStation();
+                            int coordYtrans = 0;
+                            for (int k = 0; k < lines.length; k++) {
+                                if (lines[k].getName().equals(transfersTo.getName())) {
+                                    coordYtrans = k;
+//                                System.out.println("Y coord of transfer station of " + linesStations[i][j].getName() + " is " + coordYtrans);
+                                }
+                            }
+                            int coordXtrans = 0;
+                            TrainStation temp = lines[coordYtrans].getLeftTerminus();
+                            for (int k = 0; k < lines[coordYtrans].getSize(); k++) {
+                                if (temp.getName().equals(transfersStation.getName())) {
+                                    coordXtrans = k;
+//                                System.out.println("X coord of transfer station of " + linesStations[i][j].getName() + " is " + coordXtrans);
+                                }
+                                temp = temp.getRight();
+                            }
+
+
+                            g.drawLine(
+                                    //Location of original station
+                                    (getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
+                                    getHeight() * (i + 1) / (linesStations.length + 1) + 8,
+                                    //Location of transfer station
+                                    (getWidth() * (coordXtrans) + 1) / (linesStations[coordYtrans].length + 1) + 15,
+                                    getHeight() * (coordYtrans + 1) / (linesStations.length + 1) + 8);
+                        }
+                        if (linesStations[i][j].equals(curStation) || linesStations[i][j].getName().equals(curStation.getName())) {
+                            g.setColor(Color.cyan);
+                            g.fillRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
+                                    getHeight() * (i + 1) / (linesStations.length + 1),
+                                    15, 15);
+                            g.setColor(Color.black);
+                        }
+                        if (j != linesStations[i].length - 1) {
+                            g.drawLine((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
+                                    getHeight() * (i + 1) / (linesStations.length + 1) + 8,
+                                    (getWidth() * (j + 1) + 1) / (linesStations[i].length + 1) + 15,
+                                    getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                        } else {
+                            g.setFont(f4);
+                            g.drawString(tNet.getLines()[i].getName(),
+                                    (getWidth() - 100),
+                                    getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                            g.setFont(f1);
+                        }
+                    } catch (NullPointerException e) {
                     }
-                    if (j != linesStations[i].length - 1) {
-                        g.drawLine((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
-                                getHeight() * (i + 1) / (linesStations.length + 1) + 8,
-                                (getWidth() * (j + 1) + 1) / (linesStations[i].length + 1) + 15,
-                                getHeight() * (i + 1) / (linesStations.length + 1) + 8);
-                    } else {
-                        g.setFont(f4);
-                        g.drawString(tNet.getLines()[i].getName(),
-                                (getWidth() - 100),
-                                getHeight() * (i + 1) / (linesStations.length + 1) + 8);
-                        g.setFont(f1);
-                    }
-                } catch (NullPointerException e) {
                 }
+
+
             }
 
-
+            //
+        } catch (Exception e) {
+            System.out.println("[ERROR] [VISUALIZER] Visualizer encountered " + e + " during execution");
         }
-
-        //
     }
 
     public void delay(long pauseTimeMillis) {
