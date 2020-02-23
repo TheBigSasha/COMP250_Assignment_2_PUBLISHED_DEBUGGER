@@ -1,5 +1,10 @@
 # COMP250 Assignment 2 DEBUGGER - McGill University Winter 2020
 
+# What does it do?
+This is an unconventional debugger.
+A simple stress test generating a massive amount of random stations and rides is included, but not the focus.
+The point of this debugger is to be used in conjunction with your own or someone else's debugger code in order to visualize what the train ride is doing. It works anytime travel is called, so anything that simulates a train ride will be visualized.
+
 # IMPORANT! Install Instructions -- SOME ASSEMBLY REQUIRED
 
 For IntelliJ IDEA (recommended)
