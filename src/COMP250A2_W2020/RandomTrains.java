@@ -57,7 +57,9 @@ public class RandomTrains extends Random {
             for (int j = 0; j < nextInt(10); j++) {
                 lines[i].addStation(nextTrainStation());
                 if (nextInt(300) > 250 && i != 0) {
-                    addConnectingStop(lines[i], lines[nextInt(i - 1)]);
+                    if (i > 1) {
+                        addConnectingStop(lines[i], lines[nextInt(i - 1)]);
+                    }
                 }
                 if (i >= 1) {//TODO: Make connecting stops add to random places always
                     addConnectingStop(lines[i], lines[i - 1]);
