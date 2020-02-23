@@ -43,7 +43,7 @@ public class TrainVisualizer extends JFrame {
             //g.drawString("Lines", getWidth() - 100, 50);
             g.drawString("Hour " + timeTracker, 20, 50);
             g.setFont(f3);
-            g.drawString("<3 - sashaphoto.ca", getWidth() - 150, getHeight() - 50);
+            g.drawString("<3 - sashaphoto.ca", getWidth() - 150, getHeight() - 15);
             g.setFont(f1);
         } catch (NullPointerException e) {
         }
