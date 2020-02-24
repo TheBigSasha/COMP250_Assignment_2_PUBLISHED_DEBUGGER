@@ -38,6 +38,11 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
 
     public int gameTravel(String startStation, String startLine, String endStation, String endLine) {
         System.out.println("your destination is " + endStation + " on line " + endLine);
+        JLabel label = new JLabel();
+        label.setText("your destination is " + endStation + " on line " + endLine);
+        frame.add(label);
+        frame.setSize(300, 50);
+
         TrainLine destinationLine = getLineByName(endLine);
         TrainStation destinationStation = destinationLine.findStation(endStation);
         TrainLine departureLine = getLineByName(startLine);
