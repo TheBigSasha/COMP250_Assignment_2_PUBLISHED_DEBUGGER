@@ -5,6 +5,9 @@ This is an unconventional debugger.
 A simple stress test generating a massive amount of random stations and rides is included, but not the focus.
 The point of this debugger is to be used in conjunction with your own or someone else's debugger code in order to visualize what the train ride is doing. It works anytime travel is called, so anything that simulates a train ride will be visualized.
 
+# The Game
+Try your luck at riding the inconvenient train. Navigate increasingly difficult maps and compete to get a quicker time than your friends. To play, run PlayGame.java !
+
 # IMPORANT! Install Instructions -- SOME ASSEMBLY REQUIRED
 
 For IntelliJ IDEA (recommended)
@@ -34,8 +37,11 @@ Paste the following line as the first line inside of the while loop:
 <code>t.delay(500); t.passCurrent(curStation); t.repaint();</code>
 
 # How to Run:
+Run <code>SashaTrainRide.java</code> for a random large amount of traintracks
 
-Run any tester (I supply SashaTrainRide.java), view the visualizer.
+Run <code>TrainRide.java</code> in <code>COMP250A2Tester/src/</code> for an edge case and exception checker
+
+Run <code>PlayGame.java</code> to manually test your linkedlist's handling of being a circular array and transfers.
 
 # NOTE:
 You are expected to have your own classes written as assigned which pass the Syntax Tester for this to run.
