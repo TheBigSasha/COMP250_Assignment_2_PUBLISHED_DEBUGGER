@@ -20,11 +20,28 @@ public class TrainVisualizer extends JFrame {
 
 
     public TrainVisualizer(TrainNetwork tNet) {
+        //============================Create frame object=============================
         frame = new JFrame("Network Visualizer V1 - Visit sashaphoto.ca");
-        timeTracker = 0;
-        setSize(800, 450);
+        //=========================Automatic window sizing============================
+        int longestLineLength = 0;
+        for (TrainLine line : tNet.getLines()) {
+            if (line.getSize() > longestLineLength) {
+                longestLineLength = line.getSize();
+            }
+        }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int idealSizeX = 800 / 5 * longestLineLength;
+        int idealSizeY = 450 / 3 * tNet.getLines().length;
+        int windowSizeX;
+        int windowSizeY;
+        windowSizeX = Math.min(idealSizeX, screenSize.width);
+        windowSizeY = Math.min(idealSizeY, screenSize.height);
+        setSize(windowSizeX, windowSizeY);
+        //=========================GUI Parameters============================
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //=========================Set fields============================
+        timeTracker = 0;
         this.tNet = tNet;
     }
 
@@ -35,7 +52,7 @@ public class TrainVisualizer extends JFrame {
 
     public void paint(Graphics g) {
         Font f4 = new Font(Font.SERIF, Font.BOLD, 15);
-        Font f3 = new Font(Font.SERIF, Font.BOLD | Font.ITALIC | Font.TRUETYPE_FONT, 15);
+        Font f3 = new Font(Font.SERIF, Font.BOLD | Font.ITALIC, 15);
         Font f1 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         try {
             g.clearRect(0, 0, getWidth(), getHeight());
