@@ -13,11 +13,41 @@ import static COMP250A2_W2020.TrainRide.generateTrainNetwork;
  */
 public class TrainVisualizer extends JFrame {
     public TrainNetwork tNet;
+    public GameRide gRide;
     private Random rand = new Random();
     public JFrame frame;
     public TrainStation curStation;
     private long timeTracker;
+    private int[] startCoords;
 
+    public TrainVisualizer(GameRide gRide) {
+        //===============================Game options============================
+
+        //============================Create frame object=============================
+        frame = gRide.frame;
+        //=========================Automatic window sizing============================
+        int longestLineLength = 0;
+        for (TrainLine line : gRide.getLines()) {
+            if (line.getSize() > longestLineLength) {
+                longestLineLength = line.getSize();
+            }
+        }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int idealSizeX = 800 / 5 * longestLineLength;
+        int idealSizeY = 450 / 3 * gRide.getLines().length;
+        int windowSizeX;
+        int windowSizeY;
+        windowSizeX = Math.min(idealSizeX, screenSize.width);
+        windowSizeY = Math.min(idealSizeY, screenSize.height);
+        setSize(windowSizeX, windowSizeY);
+        //=========================GUI Parameters============================
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //=========================Set fields============================
+        timeTracker = 0;
+        this.gRide = gRide;
+        gRide.frame.setVisible(true);
+    }
 
     public TrainVisualizer(TrainNetwork tNet) {
         //============================Create frame object=============================
@@ -64,7 +94,12 @@ public class TrainVisualizer extends JFrame {
             g.setFont(f1);
         } catch (NullPointerException e) {
         }
-        TrainLine[] lines = tNet.networkLines;
+        TrainLine[] lines;
+        if (tNet != null) {
+            lines = tNet.networkLines;
+        } else {
+            lines = gRide.networkLines;
+        }
         TrainStation[][] linesStations = new TrainStation[lines.length][];
         for (int i = 0; i < lines.length; i++) {
             try {
@@ -120,12 +155,14 @@ public class TrainVisualizer extends JFrame {
                                     getHeight() * (coordYtrans + 1) / (linesStations.length + 1) + 8);
                         }
                         if (linesStations[i][j].equals(curStation) || linesStations[i][j].getName().equals(curStation.getName())) {
+
                             g.setColor(Color.cyan);
                             g.fillRect((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
                                     getHeight() * (i + 1) / (linesStations.length + 1),
                                     15, 15);
                             g.setColor(Color.black);
                         }
+
                         if (j != linesStations[i].length - 1) {
                             g.drawLine((getWidth() * (j) + 1) / (linesStations[i].length + 1) + 15,
                                     getHeight() * (i + 1) / (linesStations.length + 1) + 8,
@@ -133,11 +170,29 @@ public class TrainVisualizer extends JFrame {
                                     getHeight() * (i + 1) / (linesStations.length + 1) + 8);
                         } else {
                             g.setFont(f4);
-                            g.drawString(tNet.getLines()[i].getName(),
-                                    (getWidth() - 100),
-                                    getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                            try {
+                                g.drawString(tNet.getLines()[i].getName(),
+                                        (getWidth() - 100),
+                                        getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                            } catch (NullPointerException e) {
+                                g.drawString(gRide.getLines()[i].getName(),
+                                        (getWidth() - 100),
+                                        getHeight() * (i + 1) / (linesStations.length + 1) + 8);
+                            }
                             g.setFont(f1);
                         }
+                        if ((linesStations[i][j].equals(curStation) || linesStations[i][j].getName().equals(curStation.getName())) && timeTracker == 0) {//TODO: Implement start marker & end marker
+                            startCoords = new int[]{i, j};
+                            System.out.println("set start coords as " + startCoords[0] + " " + startCoords[1]);
+                        } else {
+                            System.out.println("drew red at " + startCoords[0] + " " + startCoords[1]);
+                            g.setColor(Color.RED);
+                            g.fillRect((getWidth() * (startCoords[1]) + 1) / (linesStations[startCoords[0]].length + 1) + 15,
+                                    getHeight() * (startCoords[0] + 1) / (linesStations.length + 1),
+                                    15, 15);
+                            g.setColor(Color.black);
+                        }
+
                     } catch (NullPointerException e) {
                     }
                 }
