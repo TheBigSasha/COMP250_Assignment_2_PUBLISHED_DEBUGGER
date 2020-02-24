@@ -37,6 +37,7 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
     }
 
     public int gameTravel(String startStation, String startLine, String endStation, String endLine) {
+        System.out.println("your destination is " + endStation + " on line " + endLine);
         TrainLine destinationLine = getLineByName(endLine);
         TrainStation destinationStation = destinationLine.findStation(endStation);
         TrainLine departureLine = getLineByName(startLine);
@@ -119,19 +120,6 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
                         hasKeyPress = false;
                         break;
                     default:
-                        if (curStation.hasConnection && (previousStation == null || !previousStation.equals(curStation.getTransferStation()))) {
-                            hoursCount++;
-                            previousStation = curStation;
-                            previousLine = curStation.getLine();
-                            curLine = curStation.getTransferLine();
-                            curStation = curStation.getTransferStation();
-                        } else {
-                            hoursCount++;
-                            previousStation = curStation;
-                            previousLine = curStation.getLine();
-                            curStation = curLine.getNext(curStation);
-                            curLine = curStation.getLine();
-                        }
                         hasKeyPress = false;
                         break;
                 }
