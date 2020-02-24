@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class PlayGame {
     public static void main(String[] args) {
-        RandomTrains rand = new RandomTrains();
+        RandomTrains rand = new RandomTrains(24601);
         TrainLine[] manyConnections = new TrainLine[20];
         for (int i = 0; i < 20; i++) {
             TrainLine current = rand.nextTrainLine();
@@ -23,22 +23,7 @@ public class PlayGame {
                 game.getLines()[game.getLines().length - 1].getRightTerminus().getName(),
                 game.getLines()[game.getLines().length - 1].getName());
 
-        TrainLine[] lines = rand.nextTrainLineArray(5);
-        game = new GameRide(lines.length);
-        game.addLines(lines);
-        //TODO: implement levels & highscores
-        game.gameTravel(lines[0].getRightTerminus().getLeft().getName(),
-                game.getLines()[0].getName(),
-                game.getLines()[game.getLines().length - 1].getRightTerminus().getName(),
-                game.getLines()[game.getLines().length - 1].getName());
-        lines = rand.nextTrainLineArray(6);
-        game = new GameRide(lines.length);
-        game.addLines(lines);
-        //TODO: implement levels & highscores
-        game.gameTravel(lines[0].getRightTerminus().getLeft().getName(),
-                game.getLines()[0].getName(),
-                game.getLines()[game.getLines().length - 1].getRightTerminus().getName(),
-                game.getLines()[game.getLines().length - 1].getName());
+        TrainLine[] lines;
         while(true){
         int maxSize = 2;
         while(maxSize < 25){

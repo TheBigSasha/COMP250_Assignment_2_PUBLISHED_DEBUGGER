@@ -155,7 +155,7 @@ public class RandomTrains extends Random {
             lines[i] = nextTrainLine();
             for (int j = 0; j < nextInt(10); j++) {
                 lines[i].addStation(nextTrainStation());
-                if (nextInt(300) > 200 && i != 0) {
+                if (nextInt(300) > 290 && i != 0) {
                     if (i > 1) {
                         addConnectingStop(lines[i], lines[nextInt(i - 1)]);
                     }
@@ -165,6 +165,21 @@ public class RandomTrains extends Random {
                 }
             }
 
+        }
+        for (TrainLine line : lines) {
+            boolean passed = false;
+            for (TrainStation station : line.getLineArray()) {
+                if (station.hasConnection) {
+                    passed = true;
+                }
+            }
+            if (!passed) {
+                TrainLine toAdd;
+                do {
+                    toAdd = lines[nextInt(lines.length - 1)];
+                } while (toAdd.equals(line));
+                addConnectingStop(line, toAdd);
+            }
         }
         return lines;
 
