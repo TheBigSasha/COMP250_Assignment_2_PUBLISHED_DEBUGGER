@@ -64,8 +64,8 @@ public class RandomTrains extends Random {
 
     public void addConnectingStop(TrainLine lineA, TrainLine lineB) {
         String name = nextName();
-        TrainStation connectionA = new TrainStation(iterator + name + " 1 / 2");
-        TrainStation connectionB = new TrainStation(iterator + name + " 2 / 2");
+        TrainStation connectionA = new TrainStation(iterator + " " + name + " A");
+        TrainStation connectionB = new TrainStation(iterator + " " + name + " B");
         connectionA.setConnection(lineB, connectionB);
         connectionB.setConnection(lineA, connectionA);
         lineA.addStation(connectionA);
@@ -73,19 +73,19 @@ public class RandomTrains extends Random {
     }
 
     public TrainNetwork nextTrainNetwork() {
-        int numLines = 2 + nextInt(23);
+        int numLines = 1 + nextInt(25);//TODO: Add spiciness parameter
         TrainNetwork output = new TrainNetwork(numLines);
         TrainLine[] lines = new TrainLine[numLines];
         for (int i = 0; i < numLines; i++) {
             lines[i] = nextTrainLine();
             for (int j = 0; j < nextInt(10); j++) {
                 lines[i].addStation(nextTrainStation());
-                if (nextInt(300) > 250 && i != 0) {
+                if (nextInt(300) > 200 && i != 0) {
                     if (i > 1) {
                         addConnectingStop(lines[i], lines[nextInt(i - 1)]);
                     }
                 }
-                if (i >= 1) {//TODO: Make connecting stops add to random places always
+                if (i >= 1 && nextInt(799) < 750) {
                     addConnectingStop(lines[i], lines[i - 1]);
                 }
             }
