@@ -1,6 +1,10 @@
 package COMP250A2_W2020;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Randomizer for COMP250 A2 objects
@@ -10,35 +14,55 @@ import java.util.Random;
 public class RandomTrains extends Random {
     int iterator = 0;
     TrainStation previous;
+    ArrayList<String> names = new ArrayList<String>();
+    File Lastnames = new File("last_names.all.txt");
 
-    public RandomTrains(long seed){
+    public RandomTrains(long seed) {
         this.setSeed(seed);
+        try {
+            Scanner scanner = new Scanner(Lastnames);
+            while (scanner.hasNextLine()) {
+                names.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+        }
     }
 
-    public RandomTrains(){
+    public RandomTrains() {
+        try {
+            Scanner scanner = new Scanner(Lastnames);
+            while (scanner.hasNextLine()) {
+                names.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+        }
     }
 
-    public TrainStation nextTrainStation(){
+    public TrainStation nextTrainStation() {
         TrainStation output = new TrainStation(iterator + " " + nextName());
-        try{
-            if(output.getLine().equals(previous.getLine())){
-                iterator++;}}catch(NullPointerException e){iterator++;}
+        try {
+            if (output.getLine().equals(previous.getLine())) {
+                iterator++;
+            }
+        } catch (NullPointerException e) {
+            iterator++;
+        }
         previous = output;
         return output;
     }
 
-    public TrainLine nextTrainLine(){
+    public TrainLine nextTrainLine() {
         TrainStation leftTerm = nextTrainStation();
         TrainStation rightTerm = nextTrainStation();
         leftTerm.setRight(rightTerm);
         rightTerm.setLeft(leftTerm);
-        TrainLine output =  new TrainLine(leftTerm,rightTerm,nextName(),nextBoolean());
+        TrainLine output = new TrainLine(leftTerm, rightTerm, nextName(), nextBoolean());
         leftTerm.setTrainLine(output);
         rightTerm.setTrainLine(output);
         return output;
     }
 
-    public void addConnectingStop(TrainLine lineA, TrainLine lineB){
+    public void addConnectingStop(TrainLine lineA, TrainLine lineB) {
         String name = nextName();
         TrainStation connectionA = new TrainStation(iterator + name + " 1 / 2");
         TrainStation connectionB = new TrainStation(iterator + name + " 2 / 2");
@@ -48,7 +72,7 @@ public class RandomTrains extends Random {
         lineB.addStation(connectionB);
     }
 
-    public TrainNetwork nextTrainNetwork(){
+    public TrainNetwork nextTrainNetwork() {
         int numLines = 2 + nextInt(23);
         TrainNetwork output = new TrainNetwork(numLines);
         TrainLine[] lines = new TrainLine[numLines];
@@ -74,24 +98,33 @@ public class RandomTrains extends Random {
     }
 
     public String nextName() {
-        int nameLength = nextInt(11);
-        nameLength += 1;
-        char[] nameOutChar = new char[nameLength];
-        for (int i = 0; i < nameLength; i++) {
-            if (nameLength <= 4) {
-                nameOutChar[i] = (char) nextInt(18500);
-                nameOutChar[i] += (char) nextInt(5000);
-            } else {
-                int nameNumber = nextInt(90 - 65) + 65;
-                nameOutChar[i] = (char) nameNumber;
-                if (i == nameLength - 3) {
-                    nameOutChar[i + 1] = (char) 85;
+        try {
+            int numNames = nextInt(names.size());
+            String output = names.get(numNames);
+            names.remove(numNames);
+            return output;
+
+        } catch (Exception e) {
+
+            int nameLength = nextInt(11);
+            nameLength += 1;
+            char[] nameOutChar = new char[nameLength];
+            for (int i = 0; i < nameLength; i++) {
+                if (nameLength <= 4) {
+                    nameOutChar[i] = (char) nextInt(18500);
+                    nameOutChar[i] += (char) nextInt(5000);
+                } else {
+                    int nameNumber = nextInt(90 - 65) + 65;
+                    nameOutChar[i] = (char) nameNumber;
+                    if (i == nameLength - 3) {
+                        nameOutChar[i + 1] = (char) 85;
+                    }
                 }
             }
+            //System.out.println(nameOut);
+            return String.valueOf(nameOutChar);
         }
-        //System.out.println(nameOut);
-        return String.valueOf(nameOutChar);
+
+
     }
-
-
 }
