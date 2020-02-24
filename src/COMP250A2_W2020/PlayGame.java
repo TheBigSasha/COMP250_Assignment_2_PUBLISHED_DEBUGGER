@@ -4,7 +4,15 @@ import javax.swing.*;
 
 public class PlayGame {
     public static void main(String[] args) {
-        RandomTrains rand = new RandomTrains(24601);
+        if (args.length != 0) {
+            play(Integer.parseInt(args[0]));
+        } else {
+            play(24601);
+        }
+    }
+
+    public static void play(int seed) {
+        RandomTrains rand = new RandomTrains(seed);
         TrainLine[] manyConnections = new TrainLine[20];
         for (int i = 0; i < 20; i++) {
             TrainLine current = rand.nextTrainLine();
@@ -24,20 +32,21 @@ public class PlayGame {
                 game.getLines()[game.getLines().length - 1].getName());
 
         TrainLine[] lines;
-        while(true){
-        int maxSize = 2;
-        while(maxSize < 25){
-            lines = rand.nextTrainLineArray(maxSize, true);
-            game = new GameRide(lines.length);
-            game.addLines(lines);
-            game.frame.add(new JLabel("Currently at level " + (maxSize - 1)));
-            //TODO: implement levels & highscores
-            game.gameTravel(lines[0].getRightTerminus().getLeft().getName(),
-                    game.getLines()[0].getName(),
-                    game.getLines()[game.getLines().length - 1].getRightTerminus().getName(),
-                    game.getLines()[game.getLines().length - 1].getName());
-            maxSize++;
-        }
+        while (true) {
+            int maxSize = 2;
+            while (maxSize < 25) {
+                lines = rand.nextTrainLineArray(maxSize, true);
+                game = new GameRide(lines.length);
+                game.addLines(lines);
+                game.frame.add(new JLabel("Currently at level " + (maxSize - 1)));
+                //TODO: implement levels & highscores
+                game.gameTravel(lines[0].getRightTerminus().getLeft().getName(),
+                        game.getLines()[0].getName(),
+                        game.getLines()[game.getLines().length - 1].getRightTerminus().getName(),
+                        game.getLines()[game.getLines().length - 1].getName());
+                maxSize++;
+            }
 
-    }}
+        }
+    }
 }
