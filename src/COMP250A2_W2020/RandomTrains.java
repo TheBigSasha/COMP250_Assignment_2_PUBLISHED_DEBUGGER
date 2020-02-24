@@ -148,4 +148,25 @@ public class RandomTrains extends Random {
         }
         return lines;
     }
+
+    public TrainLine[] nextTrainLineArray(int size, boolean alwaysConnect) {
+        TrainLine[] lines = new TrainLine[size];
+        for (int i = 0; i < size; i++) {
+            lines[i] = nextTrainLine();
+            for (int j = 0; j < nextInt(10); j++) {
+                lines[i].addStation(nextTrainStation());
+                if (nextInt(300) > 200 && i != 0) {
+                    if (i > 1) {
+                        addConnectingStop(lines[i], lines[nextInt(i - 1)]);
+                    }
+                }
+                if ((i >= 1 && nextInt(799) < 750) || (i >= 1 && alwaysConnect)) {
+                    addConnectingStop(lines[i], lines[i - 1]);
+                }
+            }
+
+        }
+        return lines;
+
+    }
 }

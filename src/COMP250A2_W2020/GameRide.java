@@ -2,6 +2,7 @@
 package COMP250A2_W2020;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,17 +18,19 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
     private boolean hasKeyPress;
     private String nextMove;
     private int danceFreq = 3;
+    JLabel label;
 
     public GameRide(int nLines) {
         super(nLines);
         tf = new JTextField(15);
         tf.addKeyListener(this);
         keys = new boolean[256];
-        frame = new JFrame("Game Controls");
+        frame = new JFrame("Game! [WASD] to begin!");
         frame.addKeyListener(this);
         frame.setSize(1, 1);
         frame.setFocusable(true);
         frame.requestFocusInWindow();
+        label = new JLabel();
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
@@ -38,20 +41,21 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
 
     public int gameTravel(String startStation, String startLine, String endStation, String endLine) {
         System.out.println("your destination is " + endStation + " on line " + endLine);
-        JLabel label = new JLabel();
+
+        Font f4 = new Font(Font.SERIF, Font.BOLD, 25);
+        label.setFont(f4);
         label.setText("your destination is " + endStation + " on line " + endLine);
         frame.add(label);
-        frame.setSize(300, 50);
+        frame.setSize(700, 60);
+        frame.setLocationRelativeTo(null);
 
         TrainLine destinationLine = getLineByName(endLine);
         TrainStation destinationStation = destinationLine.findStation(endStation);
         TrainLine departureLine = getLineByName(startLine);
         TrainStation departureStation = departureLine.findStation(startStation);
 
-        TrainLine curLine = null; //use this variable to store the current line.
-        TrainStation curStation = null; //use this variable to store the current station.
+        TrainStation curStation; //use this variable to store the current station.
 
-        curLine = departureLine;
         curStation = departureStation;
 
         TrainStation previousStation = null;
@@ -62,14 +66,19 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
 
         //YOUR CODE GOES HERE
         TrainVisualizer t = new TrainVisualizer(this);
+        frame.setLocationRelativeTo(t.frame);
+        frame.setLocation(t.frame.getLocation().x,0);
         t.paint(null);
         while (true /*you can change this*/) {
             t.passCurrent(curStation);
             t.repaint();
 
-
-            if (curStation.equals(destinationStation)) {
+            if (curStation != null && curStation.equals(destinationStation)) {
                 System.out.println("Arrived at destination after " + hoursCount + " hours!");
+                label.setText("Arrived at destination after " + hoursCount + " hours!");
+                frame.setSize(500,100);
+                t.delay(2000);
+                t.dispose();
                 return hoursCount;
             }
 
@@ -79,7 +88,12 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
 
             if (hoursCount == 168) {
                 System.out.println("Jumped off after spending a full week on the train. Might as well walk.");
+                label.setText("Jumped off after spending a full week on the train. Might as well walk.");
+                frame.setSize(500,100);
+                t.delay(2000);
+                t.dispose();
                 return hoursCount;
+
             }
 
             while (!hasKeyPress) {
@@ -92,34 +106,48 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
                     case "up":
                     case "down":
                         hoursCount++;
-                        previousStation = curStation;
-                        previousLine = curStation.getLine();
+                        try{
                         if (curStation.hasConnection) {
                             curStation = curStation.getTransferStation();
+                        }}catch (NullPointerException e) {
+                            System.out.println("you died at hour " + hoursCount);
+                            label.setText("you died at hour " + hoursCount);
+                            t.delay(500);
+                            t.dispose();
+                            frame.dispose();
+                            return hoursCount;
                         }
-                        curLine = curStation.getLine();
+
                         hasKeyPress = false;
                         break;
                     case "left":
                         hoursCount++;
+                        try {
                         previousStation = curStation;
                         previousLine = curStation.getLine();
-                        try {
                             curStation = curStation.getLeft();
-                            curLine = curStation.getLine();
                         } catch (NullPointerException e) {
+                            System.out.println("you died at hour " + hoursCount);
+                            label.setText("you died at hour " + hoursCount);
+                            t.delay(500);
+                            frame.dispose();
+                            t.dispose();
+                            return hoursCount;
                         }
 
                         hasKeyPress = false;
                         break;
                     case "right":
                         hoursCount++;
-                        previousStation = curStation;
-                        previousLine = curStation.getLine();
                         try {
                             curStation = curStation.getRight();
-                            curLine = curStation.getLine();
                         } catch (NullPointerException e) {
+                            System.out.println("you died at hour " + hoursCount);
+                            label.setText("you died at hour " + hoursCount);
+                            t.delay(500);
+                            frame.dispose();
+                            t.dispose();
+                            return hoursCount;
                         }
 
                         hasKeyPress = false;
