@@ -37,10 +37,10 @@ Paste the following line as the first line inside of the while loop:
 <code>t.delay(500); t.passCurrent(curStation); t.repaint();</code>
 
 # How to Run:
-
-# Tester:
 Run <code>SashaTrainRide.java</code> for a random large amount of traintracks
+
 Run <code>TrainRide.java</code> in <code>COMP250A2Tester/src/</code> for an edge case and exception checker
+
 Run <code>PlayGame.java</code> to manually test your linkedlist's handling of being a circular array and transfers.
 
 # NOTE:
