@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="COMP250_Assignment_2_PUBLISHED_DEBUGGER:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/COMP250_Assignment_2_PUBLISHED_DEBUGGER_jar</output-path>
+    <root id="archive" name="COMP250_Assignment_2_PUBLISHED_DEBUGGER.jar">
+      <element id="module-output" name="COMP250_Assignment_2_PUBLISHED_DEBUGGER" />
+    </root>
+  </artifact>
+</component>

@@ -40,6 +40,10 @@ public class TrainVisualizer extends JFrame {
         windowSizeX = Math.min(idealSizeX, screenSize.width);
         windowSizeY = Math.min(idealSizeY, screenSize.height);
         setSize(windowSizeX, windowSizeY);
+        try {
+            frame.setIconImage(new ImageIcon(getClass().getResource("supportfiles/TrainVisualizer.png")).getImage());
+        } catch (Exception e) {
+        }
         //=========================GUI Parameters============================
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,6 +71,10 @@ public class TrainVisualizer extends JFrame {
         windowSizeX = Math.min(idealSizeX, screenSize.width);
         windowSizeY = Math.min(idealSizeY, screenSize.height);
         setSize(windowSizeX, windowSizeY);
+        try {
+            frame.setIconImage(new ImageIcon(getClass().getResource("supportfiles/TrainVisualizer.png")).getImage());
+        } catch (Exception e) {
+        }
         //=========================GUI Parameters============================
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -85,6 +93,7 @@ public class TrainVisualizer extends JFrame {
         Font f3 = new Font(Font.SERIF, Font.BOLD | Font.ITALIC, 15);
         Font f1 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         try {
+            g.setColor(Color.black);
             g.clearRect(0, 0, getWidth(), getHeight());
             g.setFont(f4);
             //g.drawString("Lines", getWidth() - 100, 50);
@@ -210,7 +219,7 @@ public class TrainVisualizer extends JFrame {
     /*This function pauses code execution for an input amount of time in milliseconds.
     It exists only because delay() isn't a thing in java. */
         try {
-            Thread.currentThread().sleep(pauseTimeMillis);
+            Thread.sleep(pauseTimeMillis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

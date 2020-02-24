@@ -28,6 +28,10 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
         frame = new JFrame("Game! [WASD] to begin!");
         frame.addKeyListener(this);
         frame.setSize(1, 1);
+        try {
+            frame.setIconImage(new ImageIcon(getClass().getResource("supportfiles/TrainVisualizer.png")).getImage());
+        } catch (Exception e) {
+        }
         frame.setFocusable(true);
         frame.requestFocusInWindow();
         label = new JLabel();
@@ -58,9 +62,6 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
 
         curStation = departureStation;
 
-        TrainStation previousStation = null;
-        TrainLine previousLine = null;
-
         int hoursCount = 0;
         System.out.println("Departing from " + curStation.getName());
 
@@ -76,8 +77,8 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
             if (curStation != null && curStation.equals(destinationStation)) {
                 System.out.println("Arrived at destination after " + hoursCount + " hours!");
                 label.setText("Arrived at destination after " + hoursCount + " hours!");
-                frame.setSize(500,100);
                 t.delay(2000);
+                frame.dispose();
                 t.dispose();
                 return hoursCount;
             }
@@ -123,8 +124,6 @@ class GameRide extends TrainNetwork implements KeyListener, ActionListener {
                     case "left":
                         hoursCount++;
                         try {
-                        previousStation = curStation;
-                        previousLine = curStation.getLine();
                             curStation = curStation.getLeft();
                         } catch (NullPointerException e) {
                             System.out.println("you died at hour " + hoursCount);
