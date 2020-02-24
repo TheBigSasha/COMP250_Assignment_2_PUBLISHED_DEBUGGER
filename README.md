@@ -8,6 +8,9 @@ The point of this debugger is to be used in conjunction with your own or someone
 # The Game
 Try your luck at riding the inconvenient train. Navigate increasingly difficult maps and compete to get a quicker time than your friends. To play, run PlayGame.java !
 
+Download a complete playable version here:
+https://github.com/TheBigSasha/Train-Ride-Game
+
 # IMPORANT! Install Instructions -- SOME ASSEMBLY REQUIRED
 
 For IntelliJ IDEA (recommended)
