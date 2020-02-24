@@ -15,7 +15,7 @@ public class RandomTrains extends Random {
     int iterator = 0;
     TrainStation previous;
     ArrayList<String> names = new ArrayList<String>();
-    File Lastnames = new File("COMP250A2Tester/supportfiles/last_names.all.txt");
+    File Lastnames = new File("supportfiles/last_names.all.txt");
 
     public RandomTrains(long seed) {
         this.setSeed(seed);
