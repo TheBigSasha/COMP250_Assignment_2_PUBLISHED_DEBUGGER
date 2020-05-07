@@ -1,4 +1,5 @@
 # COMP250 Assignment 2 DEBUGGER - McGill University Winter 2020
+![screenshot](https://sashaphotoca.files.wordpress.com/2020/04/tviz-1.png)
 
 # What does it do?
 This is an unconventional debugger.
